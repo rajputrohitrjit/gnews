@@ -1,13 +1,12 @@
 .Post{
-    color: black;
+    color: rgb(72, 99, 136);
 }
 .Post:hover,
 .Post:active {
-    color: orange;
+    color: rgb(228, 70, 91);
     cursor: pointer;
     text-decoration: none;
 }
-
 a{
     color: black;
 }

@@ -5,7 +5,7 @@ import {Button, Form, Input} from 'reactstrap';
 class Search extends Component{
 
   state = {
-    searchTopic :" ",
+    searchTopic :"",
     date : ""
   }
 
@@ -33,8 +33,7 @@ class Search extends Component{
       <p className="text-center font-italic position-static font-weight-bold" >Search any topic, news, blog....</p>
       <Form onSubmit={this.handleSubmit} inline style={{marginLeft:'auto', marginRight:'auto'}}>
         <Input className="topHeadlines"
-              type="text"
-              value={this.state.searchTopic}
+              type="text" value={this.state.searchTopic}
               onChange={this.handleChange} placeholder="Search Here"/>
 
         <Input className="topHeadlines"

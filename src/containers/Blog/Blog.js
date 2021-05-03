@@ -19,14 +19,13 @@ class Blog extends Component {
     state = {
         post: [],
         searchTopic: null,
-        loading : false,
         totalResults : 0
     }
         componentDidMount(){
             try{
-            axios.get(`/top-headlines?country=in&apiKey=${NEWS_API_KEY}`)
+            axios.get(`/top-headlines?country=in&lang=en&token=${NEWS_API_KEY}`)
             .then(response => {
-                this.setState({post:response.data.articles, totalResults:response.data.totalResults})
+                this.setState({post:response.data.articles, totalResults:response.data.totalArticles})
             })
             .catch(error => {
                 console.log(error);
@@ -40,10 +39,9 @@ class Blog extends Component {
 
     searchForTopic = (topic,date) => {
         try {
-            this.setState({loading:true});
-           axios.get(`/everything?q=${topic}&from=${date}&sortBy=publishedAt&pageSize=25&language=en&apiKey=${NEWS_API_KEY}`)
+           axios.get(`/search?q=${topic}&from=${date}&sortBy=publishedAt&lang=en&token=${NEWS_API_KEY}`)
           .then(response => {
-              this.setState({post:response.data.articles,totalResults:response.data.totalResults});
+              this.setState({post:response.data.articles,totalResults:response.data.totalArticles});
             //   console.log(date);
           })
           .catch(error => {
@@ -57,9 +55,9 @@ class Blog extends Component {
 
       searchForTopicWithoutDate = (topic) => {
  
-           axios.get(`/top-headlines?category=${topic}&language=en&country=in&apiKey=${NEWS_API_KEY}`)
+           axios.get(`/top-headlines?topic=${topic}&lang=en&country=in&token=${NEWS_API_KEY}`)
           .then(response => {
-              this.setState({post:response.data.articles,totalResults:response.data.totalResults});
+              this.setState({post:response.data.articles,totalResults:response.data.totalArticles});
           })
           .catch(error => {
               console.log(error);
@@ -72,7 +70,8 @@ class Blog extends Component {
      
         const fullLoaded =( <CardColumns style={{padding:'50px', paddingTop:'0px'}}>
         {this.state.post.map( (post,index) => 
-        <Post title={post.title} content={post.content} src={post.urlToImage} key={index} url={post.url}/>
+        <Post title={post.title} content={post.content} src={post.image} 
+        key={index} url={post.url} source={post.source.name} publishedAt={post.publishedAt}/>
         )}
         </CardColumns> );
 
@@ -93,7 +92,7 @@ class Blog extends Component {
             <Technology searchForTopicWithoutDate={this.searchForTopicWithoutDate}/>
             </div>
                 
-             {this.state.totalResults ? fullLoaded : 
+             {this.state.totalResults > 0 ? fullLoaded : 
              <Spinner  color="success" 
              style={{marginLeft:'auto', marginRight:'auto', display:'block', width: '3rem', height: '3rem' }}>
                 </Spinner>
