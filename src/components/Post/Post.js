@@ -9,7 +9,7 @@ const Post = (props) => {
 
   return (
       <Fade>
-      <Card key={props.index} style={{ paddingTop:'0px'}} 
+      <Card key={props.index} style={{ paddingTop:'0px',boxShadow:'0 50px 100px black'}} 
       className="position-static" >
         <CardImg top width="100%" src={props.src}/>
         <CardBody>
